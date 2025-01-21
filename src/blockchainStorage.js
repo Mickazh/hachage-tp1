@@ -1,11 +1,10 @@
-import {readFile, writeFile} from 'node:fs/promises'
-import {getDate, monSecret} from "./divers.js";
-import {NotFoundError} from "./errors.js";
-import {createHash} from 'node:crypto'
-
+import { readFile, writeFile } from "node:fs/promises";
+import { getDate, monSecret } from "./divers.js";
+import { NotFoundError } from "./errors.js";
+import { createHash } from "node:crypto";
 
 /* Chemin de stockage des blocks */
-const path = ''
+const path = "./data/blockchain.json";
 
 /**
  * Mes définitions
@@ -23,7 +22,15 @@ const path = ''
  * @return {Promise<any>}
  */
 export async function findBlocks() {
-    // A coder
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = JSON.parse((await readFile(path)).toString());
+      resolve(data);
+    } catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
 }
 
 /**
@@ -32,7 +39,7 @@ export async function findBlocks() {
  * @return {Promise<Block[]>}
  */
 export async function findBlock(partialBlock) {
-    // A coder
+  // A coder
 }
 
 /**
@@ -40,7 +47,7 @@ export async function findBlock(partialBlock) {
  * @return {Promise<Block|null>}
  */
 export async function findLastBlock() {
-    // A coder
+  // A coder
 }
 
 /**
@@ -49,6 +56,5 @@ export async function findLastBlock() {
  * @return {Promise<Block[]>}
  */
 export async function createBlock(contenu) {
-    // A coder
+  // A coder
 }
-
