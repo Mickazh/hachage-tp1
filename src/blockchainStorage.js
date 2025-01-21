@@ -48,7 +48,11 @@ export async function findBlock(partialBlock) {
  * @return {Promise<Block|null>}
  */
 export async function findLastBlock() {
-  // A coder
+  const blocks = await findBlocks();
+  if (blocks.length === 0) {
+    return null;
+  }
+  return blocks[blocks.length - 1];
 }
 
 /**
@@ -58,15 +62,17 @@ export async function findLastBlock() {
  */
 export async function createBlock(contenu) {
   const blocks = await findBlocks();
+  const lastBlock = await findLastBlock();
   /**
+   * ça fonctionne pas
    * @type Block
    */
   const block = {
     ...contenu,
     id: v4(),
-    hash: "",
-    date: getDate()
-  }
+    hash: lastBlock ? createHash("sha256").update(JSON.stringify(lastBlock)).digest("hex") : "",
+    date: getDate(),
+  };
   const newBlocks = [...blocks, block];
   writeFile(path, JSON.stringify(newBlocks));
   return newBlocks;
