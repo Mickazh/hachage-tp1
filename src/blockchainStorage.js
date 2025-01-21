@@ -1,7 +1,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { getDate, monSecret } from "./divers.js";
 import { NotFoundError } from "./errors.js";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
+import { v4 } from "uuid";
 
 /* Chemin de stockage des blocks */
 const path = "./data/blockchain.json";
@@ -56,5 +57,17 @@ export async function findLastBlock() {
  * @return {Promise<Block[]>}
  */
 export async function createBlock(contenu) {
-  // A coder
+  const blocks = await findBlocks();
+  /**
+   * @type Block
+   */
+  const block = {
+    ...contenu,
+    id: v4(),
+    hash: "",
+    date: getDate()
+  }
+  const newBlocks = [...blocks, block];
+  writeFile(path, JSON.stringify(newBlocks));
+  return newBlocks;
 }
