@@ -25,7 +25,7 @@ const path = "./data/blockchain.json";
 export async function findBlocks() {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = JSON.parse((await readFile(path)).toString());
+      const data = JSON.parse((await readFile(path)));
       resolve(data);
     } catch (err) {
       console.error(err);
